@@ -35,6 +35,7 @@
         overflow: hidden;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
+        @include line-clamp(1);
 
     }
 

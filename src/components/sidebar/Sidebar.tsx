@@ -13,7 +13,31 @@ import
 from 
 'react-icons/md'
 import { useDispatch } from 'react-redux'
+import { setLogout } from '../../redux/slice/logoutSlice'
+import { auth } from '../../firebase/firebase'
+import {signOut } from "firebase/auth";
+
 const Sidebar = ({sidebar, handleToggleSidebar}: any) => {
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      dispatch(setLogout({
+        name: "",
+        email: "",
+        photo: "",
+        accessToken: ""
+        
+      }));
+      
+    }).catch((error) => {
+      // An error happened.
+      alert(error.message);
+    });
+
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user")
+  }
   return (
     <nav className={sidebar ? "sidebar open" : "sidebar"}
     onClick={() => handleToggleSidebar(false)}
@@ -50,7 +74,7 @@ const Sidebar = ({sidebar, handleToggleSidebar}: any) => {
 
         <hr />
 
-        <li>
+        <li onClick={handleLogout}>
           <MdExitToApp size={23} />
           <span>Log Out</span>
         </li>
